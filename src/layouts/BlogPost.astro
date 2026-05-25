@@ -28,59 +28,68 @@ const older = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : 
   <body>
     <Header />
 
-    <div class="page" style="padding-top:0;">
+    <div class="page bp-page">
 
-      <div class="bp-hero">
-        <div class="bp-hero-content">
-          <a class="bp-hero-back" href="/blog">‹ All notes</a>
-          <div class="bp-hero-eyebrow">
-            <span>Notes</span>
-            <span class="dot"></span>
-            <span>{formatDate(pubDate)}</span>
+      <!-- Decorative gradient strip — visible only through card's top rounded corners -->
+      <div class="bp-bg"></div>
+
+      <!-- Content card: starts right below nav -->
+      <div class="bp-card">
+
+        <!-- Gradient head (title area) -->
+        <div class="bp-card-head">
+          <div class="bp-card-head-inner">
+            <a class="bp-hero-back" href="/blog">‹ All notes</a>
+            <div class="bp-hero-eyebrow">
+              <span>Notes</span>
+              <span class="dot"></span>
+              <span>{formatDate(pubDate)}</span>
+            </div>
+            <h1>{title}</h1>
           </div>
-          <h1>{title}</h1>
         </div>
-      </div>
 
-      <div class="bp-article">
-        <div class="bp-article-grid">
-          <div class="bp-meta">
-            <div class="author">
-              <div class="avatar"></div>
-              <span class="author-name">Shawn Cai</span>
+        <!-- Article body -->
+        <div class="bp-article">
+          <div class="bp-article-grid">
+            <div class="bp-meta">
+              <div class="author">
+                <div class="avatar"></div>
+                <span class="author-name">Shawn Cai</span>
+              </div>
+              <span class="read-time">Short read</span>
             </div>
-            <span class="read-time">Short read</span>
+
+            <slot />
           </div>
 
-          <slot />
+          <div class="bp-nav">
+            {newer ? (
+              <a class="bp-nav-card" href={`/blog/${newer.id}/`}>
+                <div class="label">‹ Newer</div>
+                <div class="title">{newer.data.title}</div>
+              </a>
+            ) : (
+              <div class="bp-nav-card" style="opacity:0.4; pointer-events:none;">
+                <div class="label">‹ Newer</div>
+                <div class="title">—</div>
+              </div>
+            )}
+            {older ? (
+              <a class="bp-nav-card right" href={`/blog/${older.id}/`}>
+                <div class="label">Older ›</div>
+                <div class="title">{older.data.title}</div>
+              </a>
+            ) : (
+              <div class="bp-nav-card right" style="opacity:0.4; pointer-events:none;">
+                <div class="label">Older ›</div>
+                <div class="title">—</div>
+              </div>
+            )}
+          </div>
         </div>
 
-        <div class="bp-nav">
-          {newer ? (
-            <a class="bp-nav-card" href={`/blog/${newer.id}/`}>
-              <div class="label">‹ Newer</div>
-              <div class="title">{newer.data.title}</div>
-            </a>
-          ) : (
-            <div class="bp-nav-card" style="opacity:0.4; pointer-events:none;">
-              <div class="label">‹ Newer</div>
-              <div class="title">—</div>
-            </div>
-          )}
-          {older ? (
-            <a class="bp-nav-card right" href={`/blog/${older.id}/`}>
-              <div class="label">Older ›</div>
-              <div class="title">{older.data.title}</div>
-            </a>
-          ) : (
-            <div class="bp-nav-card right" style="opacity:0.4; pointer-events:none;">
-              <div class="label">Older ›</div>
-              <div class="title">—</div>
-            </div>
-          )}
-        </div>
       </div>
-
     </div>
 
     <Footer />
