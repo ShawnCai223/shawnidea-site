@@ -74,8 +74,15 @@ async function createPage(dbId, properties, body) {
   const page = await notion.pages.create({
     parent: { type: 'data_source_id', data_source_id: dbId },
     properties,
-    ...(body ? { markdown: body } : {}),
   });
+
+  if (body) {
+    await notion.pages.updateMarkdown({
+      page_id: page.id,
+      type: 'replace_content',
+      replace_content: { new_str: body, allow_deleting_content: false },
+    });
+  }
 
   return page;
 }
