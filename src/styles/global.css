@@ -835,28 +835,15 @@ html[data-theme="dark"] .nav-theme-btn:hover { background: rgba(255,255,255,0.14
    BLOG POST — magazine
    ============================================================ */
 /* ── Blog post page layout ──────────────────────────────────── */
-.bp-page { padding-top: 0; position: relative; }
+.bp-page { padding-top: 0; }
 
-/* Gradient strip: visible only as a sliver through the card's top corners */
-.bp-bg {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 160px;
-  background:
-    radial-gradient(circle at 22% 28%, rgba(255,106,26,0.35), transparent 55%),
-    radial-gradient(circle at 80% 70%, rgba(120,124,132,0.30), transparent 60%),
-    linear-gradient(135deg, #E2E0DA 0%, #B8B5AC 100%);
-  pointer-events: none;
-}
-
-/* Main card: slides up right below the fixed nav */
+/* Main card: full-width, flush to top, no border-radius */
 .bp-card {
   position: relative;
-  z-index: 2;
-  margin-top: 62px;
-  border-radius: 24px 24px 0 0;
+  z-index: 1;
+  margin-top: 0;
   background: var(--bg);
-  min-height: calc(100vh - 62px);
+  min-height: 100vh;
   overflow: hidden;
 }
 
@@ -882,7 +869,7 @@ html[data-theme="dark"] .nav-theme-btn:hover { background: rgba(255,255,255,0.14
   z-index: 2;
   max-width: 1120px;
   margin: 0 auto;
-  padding: 32px 28px 40px;
+  padding: 80px 28px 40px; /* 80px top = nav clearance */
   color: white;
 }
 
