@@ -11,6 +11,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "sync": "node scripts/notion-sync.mjs",
+    "import": "node scripts/notion-import.mjs",
     "publish": "node scripts/notion-sync.mjs && git add src/content && git commit -m 'content: sync from Notion' && git push"
   },
   "dependencies": {
