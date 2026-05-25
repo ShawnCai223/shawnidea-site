@@ -1,0 +1,135 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: project,
+  }));
+}
+
+type Props = CollectionEntry<'projects'>;
+
+const project = Astro.props;
+const { Content, headings } = await render(project);
+const { title, description, pubDate, updatedDate, heroImage, languages, stack, github, demo } = project.data;
+
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={`${title} — Shawn Cai`} description={description} />
+  </head>
+  <body>
+    <Header />
+
+    <!-- Hero -->
+    <section class="project-single-hero">
+      <div class="container">
+        <a href="/projects" class="project-hero-breadcrumb">← Projects</a>
+
+        <div class="project-hero-shell">
+          <h1 class="project-hero-title">{title}</h1>
+          {description && <p class="project-hero-subtitle">{description}</p>}
+
+          <div class="project-hero-meta-row">
+            <div class="project-hero-meta-line">
+              <span class="project-hero-meta-label">Created</span>
+              <span class="project-hero-meta-value">{formatDate(pubDate)}</span>
+            </div>
+            {updatedDate && (
+              <div class="project-hero-meta-line">
+                <span class="project-hero-meta-label">Updated</span>
+                <span class="project-hero-meta-value">{formatDate(updatedDate)}</span>
+              </div>
+            )}
+          </div>
+
+          {languages.length > 0 && (
+            <div class="project-hero-tags-row">
+              <span class="project-hero-meta-label">Languages</span>
+              <div class="project-hero-tag-list">
+                {languages.map(l => <span class="project-hero-tag">{l}</span>)}
+              </div>
+            </div>
+          )}
+
+          {stack.length > 0 && (
+            <div class="project-hero-tags-row">
+              <span class="project-hero-meta-label">Stack</span>
+              <div class="project-hero-tag-list">
+                {stack.map(s => <span class="project-hero-tag project-hero-tag--stack">{s}</span>)}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    {heroImage && (
+      <div class="project-hero-image-wrap">
+        <img src={heroImage} alt={title} class="project-hero-image" />
+      </div>
+    )}
+
+    <!-- Body -->
+    <div class="project-single-layout container">
+
+      <!-- Reading card -->
+      <div class="project-reading-col">
+        <article class="project-reading-card">
+          <div class="project-body-content">
+            <Content />
+          </div>
+        </article>
+
+        <!-- Action cards -->
+        {(github || demo) && (
+          <div class="project-bottom-links">
+            {github && (
+              <a href={github} target="_blank" rel="noopener" class="project-action-card">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                <span>View on GitHub</span>
+                <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+              </a>
+            )}
+            {demo && (
+              <a href={demo} target="_blank" rel="noopener" class="project-action-card">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                <span>Live Demo</span>
+                <svg class="arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+
+      <!-- Table of contents -->
+      {headings.length > 0 && (
+        <aside class="project-content-nav">
+          <div class="project-content-rail">
+            <p class="project-content-nav-title">On this page</p>
+            <nav>
+              {headings.filter(h => h.depth <= 3).map(h => (
+                <a
+                  href={`#${h.slug}`}
+                  class:list={['project-content-link', { 'project-content-link--h3': h.depth === 3 }]}
+                >
+                  {h.text}
+                </a>
+              ))}
+            </nav>
+          </div>
+        </aside>
+      )}
+    </div>
+
+    <Footer />
+  </body>
+</html>

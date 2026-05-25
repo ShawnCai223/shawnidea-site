@@ -1,86 +1,79 @@
 ---
-import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
+import { type CollectionEntry, getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate } = Astro.props;
+
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+
+const allPosts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const currentUrl = Astro.url.pathname.replace(/\/$/, '');
+const currentIndex = allPosts.findIndex(p => currentUrl.endsWith(p.id));
+const newer = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+const older = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+
+const shortDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 ---
 
 <html lang="en">
-	<head>
-		<BaseHead title={title} description={description} />
-		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
-		</style>
-	</head>
+  <head>
+    <BaseHead title={`${title} — Shawn Cai`} description={description} />
+  </head>
+  <body>
+    <Header />
 
-	<body>
-		<Header />
-		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
-						<h1>{title}</h1>
-						<hr />
-					</div>
-					<slot />
-				</div>
-			</article>
-		</main>
-		<Footer />
-	</body>
+    <div class="blog-post-page">
+      <div class="blog-post-hero">
+        <div class="container">
+          <a href="/blog" class="blog-back-btn">← Blog</a>
+          <h1 class="blog-post-title">{title}</h1>
+          <p class="blog-post-date">{formatDate(pubDate)}</p>
+        </div>
+      </div>
+
+      <div class="blog-post-shell container">
+        <div class="blog-post-card">
+          <div class="blog-post-content">
+            <slot />
+          </div>
+
+          <div class="blog-post-nav">
+            <div class="blog-nav-cell blog-nav-cell--newer">
+              {newer ? (
+                <a href={`/blog/${newer.id}/`} class="blog-nav-link">
+                  <span class="blog-nav-label">← NEWER</span>
+                  <span class="blog-nav-post-title">{newer.data.title}</span>
+                  <span class="blog-nav-post-date">{shortDate(newer.data.pubDate)}</span>
+                </a>
+              ) : (
+                <span class="blog-nav-empty">Already the newest blog</span>
+              )}
+            </div>
+            <div class="blog-nav-cell blog-nav-cell--older">
+              {older ? (
+                <a href={`/blog/${older.id}/`} class="blog-nav-link blog-nav-link--right">
+                  <span class="blog-nav-label">OLDER →</span>
+                  <span class="blog-nav-post-title">{older.data.title}</span>
+                  <span class="blog-nav-post-date">{shortDate(older.data.pubDate)}</span>
+                </a>
+              ) : (
+                <span class="blog-nav-empty blog-nav-empty--right">Already the oldest blog</span>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <Footer />
+  </body>
 </html>
