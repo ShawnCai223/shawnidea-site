@@ -2,151 +2,134 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-
-const education = [
-  {
-    school: 'University of California, San Diego',
-    location: 'San Diego, CA',
-    degree: 'B.S.',
-    major: 'Computer Science',
-    time: '2019 – 2023',
-    gpa: '',
-  },
-];
-
-const skills = [
-  { group: 'Languages',       list: ['Go', 'Python', 'Java', 'SQL', 'Bash', 'TypeScript'] },
-  { group: 'Frameworks',      list: ['FastAPI', 'Gin', 'gRPC', 'Spring Boot', 'Astro'] },
-  { group: 'Databases',       list: ['PostgreSQL', 'Redis', 'Elasticsearch', 'MongoDB'] },
-  { group: 'Infrastructure',  list: ['Docker', 'Kubernetes', 'AWS', 'Terraform', 'Prometheus'] },
-];
-
-const experience = [
-  {
-    company: 'Company Name',
-    location: 'San Francisco, CA',
-    role: 'Software Engineer',
-    time: '2023 – Present',
-    details: [
-      'Designed and built backend services with reliability and observability in mind.',
-      'Led migrations and performance tuning across APIs, queues, and storage layers.',
-    ],
-  },
-  {
-    company: 'Previous Company',
-    location: 'Remote',
-    role: 'Software Engineer Intern',
-    time: '2022',
-    details: [
-      'Built internal tooling and real-time data pipelines.',
-      'Improved latency and developer workflows through targeted systems work.',
-    ],
-  },
-];
 ---
 
 <html lang="en">
   <head>
-    <BaseHead title="About — Shawn Cai" description="Professional background, skills, and experience." />
+    <BaseHead title="About — Shawn Cai" description="Engineer & maker based in San Diego." />
   </head>
   <body>
     <Header />
 
-    <div class="resume-page">
-      <!-- Page hero -->
-      <section class="page-hero">
-        <div class="container">
-          <span class="eyebrow">Career</span>
-          <h1>About</h1>
-          <p style="font-size:1.05rem; margin-top:1rem; max-width:55ch; color:var(--ink-3);">
-            Engineer who enjoys building systems and exploring ideas.
+    <div class="page">
+      <div class="container">
+        <div class="page-hero">
+          <span class="eyebrow accent">About · the short version</span>
+          <h1>Shawn Cai.</h1>
+          <p class="lead">
+            Engineer & maker based in San Diego. The short version below.
+            <a href="/contact" style="color: var(--accent); text-decoration: underline; text-underline-offset: 3px;">Reach out</a>
+            for the long one.
           </p>
         </div>
-      </section>
 
-      <!-- Profile -->
-      <div class="resume-main-shell">
-        <section class="resume-profile">
-          <div>
-            <div class="resume-profile-photo resume-profile-photo--placeholder">SC</div>
-          </div>
-          <div class="resume-profile-copy">
-            <h2 class="resume-profile-name">Shawn Cai</h2>
-            <p class="resume-profile-location">San Diego, CA</p>
-            <div class="resume-profile-text">
-              <p>Backend engineer focused on distributed systems, clean APIs, and developer tooling. I care about correctness, clarity, and shipping things that last.</p>
-            </div>
-            <div class="resume-profile-actions">
-              <a href="/resume.pdf" class="btn btn-primary" download>Download PDF</a>
-            </div>
-          </div>
-        </section>
+        <div class="cv-layout">
 
-        <!-- Education -->
-        <section class="resume-section">
-          <div class="resume-section-rail">
-            <h2>Education</h2>
-          </div>
-          <div class="resume-education-list">
-            {education.map(ed => (
-              <article class="resume-education-item">
-                <div class="resume-education-row">
-                  <div class="resume-education-school">{ed.school}</div>
-                  <div class="resume-education-location">{ed.location}</div>
-                </div>
-                <div class="resume-education-row">
-                  <div class="resume-education-meta">
-                    {[ed.degree, ed.major, ed.gpa].filter(Boolean).join('  ·  ')}
+          <!-- Sticky rail -->
+          <aside class="cv-rail">
+            <div class="cv-rail-photo">
+              <span class="photo-mark">SC</span>
+            </div>
+            <div>
+              <div class="cv-rail-name">Shawn Cai</div>
+              <div class="cv-rail-loc">San Diego, CA</div>
+            </div>
+
+            <div class="cv-rail-group">
+              <span class="eyebrow">Contact</span>
+              <div class="cv-rail-links">
+                <a href="/contact">Email <span class="arr">›</span></a>
+                <a href="https://github.com/ShawnCai223" target="_blank" rel="noopener">GitHub <span class="arr">↗</span></a>
+                <a href="https://linkedin.com/in/shawncai" target="_blank" rel="noopener">LinkedIn <span class="arr">↗</span></a>
+              </div>
+            </div>
+
+            <div class="cv-rail-group">
+              <span class="eyebrow">Languages</span>
+              <div class="chips">
+                <span class="chip">Python</span>
+                <span class="chip">TypeScript</span>
+                <span class="chip">JavaScript</span>
+                <span class="chip">SQL</span>
+                <span class="chip">Shell</span>
+              </div>
+            </div>
+
+            <div class="cv-rail-group">
+              <span class="eyebrow">Stack</span>
+              <div class="chips">
+                <span class="chip">Flask</span>
+                <span class="chip">Astro</span>
+                <span class="chip">PostgreSQL</span>
+                <span class="chip">AWS</span>
+                <span class="chip">Cloudflare</span>
+                <span class="chip">OpenAI API</span>
+              </div>
+            </div>
+
+            <a class="btn ghost" href="/resume.pdf" download style="justify-content:center;">↓ Download PDF</a>
+          </aside>
+
+          <!-- Main column -->
+          <div class="cv-main">
+
+            <div class="cv-block">
+              <div class="cv-block-head">
+                <h2>Experience</h2>
+                <span class="count">Most recent first</span>
+              </div>
+              <div class="cv-cards-stack">
+                <div class="cv-card">
+                  <div class="cv-card-row">
+                    <span class="cv-card-title">[Your role here] · [Company]</span>
+                    <span class="cv-card-meta">2024 — Present</span>
                   </div>
-                  <div class="resume-education-date">{ed.time}</div>
+                  <div class="cv-card-sub">San Diego, CA</div>
+                  <ul class="cv-card-points">
+                    <li>Replace this with one bullet describing what you owned.</li>
+                    <li>Replace this with one bullet describing impact (numbers help).</li>
+                    <li>Replace this with one bullet about a system or product you shipped.</li>
+                  </ul>
                 </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <!-- Skills -->
-        <section class="resume-section">
-          <div class="resume-section-rail">
-            <h2>Skills</h2>
-          </div>
-          <div class="resume-skills-stack">
-            {skills.map(g => (
-              <div class="resume-skills-group">
-                <div class="resume-skills-title">{g.group}</div>
-                <div class="resume-skills-tags">
-                  {g.list.map(s => <span class="resume-skills-tag">{s}</span>)}
+                <div class="cv-card">
+                  <div class="cv-card-row">
+                    <span class="cv-card-title">[Previous role] · [Company]</span>
+                    <span class="cv-card-meta">2023 — 2024</span>
+                  </div>
+                  <div class="cv-card-sub">Remote</div>
+                  <ul class="cv-card-points">
+                    <li>Short summary of responsibilities and outcomes.</li>
+                    <li>Tools used, scale of system, what changed because of you.</li>
+                  </ul>
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
+            </div>
 
-        <!-- Experience -->
-        <section class="resume-section" style="border-bottom:none;">
-          <div class="resume-section-rail">
-            <h2>Experience</h2>
-          </div>
-          <div class="resume-experience-list">
-            {experience.map(exp => (
-              <article class="resume-experience-item">
-                <div class="resume-experience-line">
-                  <div class="resume-experience-company">{exp.company}</div>
-                  <div class="resume-experience-location">{exp.location}</div>
+            <div class="cv-block">
+              <div class="cv-block-head">
+                <h2>Education</h2>
+                <span class="count">2</span>
+              </div>
+              <div class="cv-cards-stack">
+                <div class="cv-card">
+                  <div class="cv-card-row">
+                    <span class="cv-card-title">UC San Diego — MS, Computer Science</span>
+                    <span class="cv-card-meta">2024 — 2026</span>
+                  </div>
+                  <div class="cv-card-sub">La Jolla, CA</div>
                 </div>
-                <div class="resume-experience-line">
-                  <div class="resume-experience-role">{exp.role}</div>
-                  <div class="resume-experience-date">{exp.time}</div>
+                <div class="cv-card">
+                  <div class="cv-card-row">
+                    <span class="cv-card-title">Tongji University — BS</span>
+                    <span class="cv-card-meta">2019 — 2023</span>
+                  </div>
+                  <div class="cv-card-sub">Shanghai, China</div>
                 </div>
-                {exp.details.length > 0 && (
-                  <ul class="resume-experience-points">
-                    {exp.details.map(d => <li>{d}</li>)}
-                  </ul>
-                )}
-              </article>
-            ))}
+              </div>
+            </div>
+
           </div>
-        </section>
+        </div>
       </div>
     </div>
 

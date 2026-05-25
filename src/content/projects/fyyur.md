@@ -7,6 +7,8 @@ languages: ['Python']
 stack: ['Flask', 'PostgreSQL', 'SQLAlchemy']
 github: 'https://github.com/ShawnCai223/fyyur'
 demo: ''
+role: 'Full-stack'
+glyph: 'Fy'
 ---
 
 ## Overview

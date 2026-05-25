@@ -2,86 +2,113 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-
-const links = [
-  { abbr: 'em', label: 'hi@shawnidea.com', href: 'mailto:hi@shawnidea.com' },
-  { abbr: 'gh', label: 'GitHub',           href: 'https://github.com/ShawnCai223' },
-  { abbr: 'in', label: 'LinkedIn',         href: 'https://linkedin.com/in/shawncai' },
-];
 ---
 
 <html lang="en">
   <head>
-    <BaseHead title="Contact — Shawn Cai" description="If you'd like to talk about projects, ideas, or just say hello, feel free to reach out." />
+    <BaseHead title="Say hi — Shawn Cai" description="Email is best — I read everything. Or drop a message below." />
   </head>
   <body>
     <Header />
 
-    <section class="page-hero">
+    <div class="page">
       <div class="container">
-        <span class="eyebrow">Contact</span>
-        <h1>Let's talk</h1>
-        <p style="font-size:1.05rem; margin-top:1rem; max-width:55ch; color:var(--ink-3);">
-          If you'd like to talk about projects, ideas, or just say hello, feel free to reach out.
-        </p>
-      </div>
-    </section>
+        <div class="page-hero">
+          <h1>Say hi.</h1>
+          <p class="lead">Email is best — I read everything. Or drop a message below.</p>
+        </div>
 
-    <section class="contact-section">
-      <div class="container contact-grid">
+        <div class="contact-layout">
 
-        <!-- Left: direct links -->
-        <div class="contact-direct">
-          <p class="contact-section-eyebrow">DIRECT</p>
-          <h2 class="contact-section-title">Find me here</h2>
-          <p class="contact-section-sub">I try to reply as soon as possible.</p>
+          <!-- Left: links + coffee card -->
+          <div class="contact-col">
 
-          <div class="contact-links">
-            {links.map(l => (
-              <a href={l.href} target="_blank" rel="noopener" class="contact-link-row">
-                <span class="contact-link-abbr">{l.abbr}</span>
-                <span class="contact-link-label">{l.label}</span>
-                <svg class="contact-link-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            <div class="contact-links">
+              <a class="contact-link" href="mailto:hi@shawnidea.com">
+                <span class="icon-svg accent" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                </span>
+                <span class="body">
+                  <span class="label-row">Email</span>
+                  <span class="value">hi@shawnidea.com</span>
+                </span>
+                <span class="arrow">›</span>
               </a>
-            ))}
+
+              <a class="contact-link" href="https://github.com/ShawnCai223" target="_blank" rel="noopener">
+                <span class="icon-svg" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.92.58.1.79-.25.79-.56v-2c-3.2.69-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.72 1.27 3.39.97.1-.75.41-1.27.74-1.56-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.43-2.69 5.4-5.25 5.69.42.36.79 1.08.79 2.18v3.23c0 .31.21.67.8.56C20.22 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
+                </span>
+                <span class="body">
+                  <span class="label-row">Code</span>
+                  <span class="value">github.com/ShawnCai223</span>
+                </span>
+                <span class="arrow">↗</span>
+              </a>
+
+              <a class="contact-link" href="https://linkedin.com/in/shawncai" target="_blank" rel="noopener">
+                <span class="icon-svg" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.36-1.84c3.6 0 4.27 2.37 4.27 5.45v6.28zM5.34 7.43A2.06 2.06 0 1 1 5.34 3.3a2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+                </span>
+                <span class="body">
+                  <span class="label-row">Work</span>
+                  <span class="value">LinkedIn</span>
+                </span>
+                <span class="arrow">↗</span>
+              </a>
+
+              <a class="contact-link" href="https://shawnidea.com" target="_blank" rel="noopener">
+                <span class="icon-svg" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+                </span>
+                <span class="body">
+                  <span class="label-row">Site</span>
+                  <span class="value">shawnidea.com</span>
+                </span>
+                <span class="arrow">↗</span>
+              </a>
+            </div>
+
+            <!-- Buy me a coffee -->
+            <div class="coffee-card">
+              <div>
+                <span class="coffee-eyebrow">☕ Buy me a coffee</span>
+                <h3>Caffeinate me.</h3>
+                <p>If anything here helped you, a coffee keeps the next post coming. Scan the QR with your wallet app.</p>
+              </div>
+              <div class="coffee-qr">
+                Drop your QR here
+              </div>
+            </div>
+
           </div>
 
-          <div class="contact-support-card">
-            <p class="contact-section-eyebrow" style="margin-bottom:12px;">SUPPORT</p>
-            <p class="contact-support-text">Buy me a coffee if you enjoy this site.</p>
-            <p class="contact-support-sub">Scan the code in your PayPal app.</p>
+          <!-- Right: form -->
+          <div class="contact-col">
+            <form class="contact-form-card" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+              <div>
+                <h2>Send a note.</h2>
+                <p>What's on your mind?</p>
+              </div>
+              <div class="contact-field">
+                <label for="ct-name">Name</label>
+                <input id="ct-name" name="name" type="text" placeholder="Your name" required />
+              </div>
+              <div class="contact-field">
+                <label for="ct-email">Email</label>
+                <input id="ct-email" name="email" type="email" placeholder="you@example.com" required />
+              </div>
+              <div class="contact-field">
+                <label for="ct-msg">Message</label>
+                <textarea id="ct-msg" name="message" placeholder="Hello Shawn —" required></textarea>
+              </div>
+              <button class="btn lg" type="submit" style="justify-content:center;">Send message <span>→</span></button>
+            </form>
           </div>
+
         </div>
-
-        <!-- Right: contact form -->
-        <div class="contact-form-card">
-          <p class="contact-section-eyebrow">MESSAGE</p>
-          <h2 class="contact-form-title">Send a note</h2>
-          <p class="contact-form-sub">Leave a message using the form below.</p>
-
-          <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-            <div class="contact-field">
-              <label class="contact-label" for="cf-name">NAME</label>
-              <input class="contact-input" id="cf-name" name="name" type="text" placeholder="Your name" required />
-            </div>
-            <div class="contact-field">
-              <label class="contact-label" for="cf-email">EMAIL</label>
-              <input class="contact-input" id="cf-email" name="email" type="email" placeholder="you@example.com" required />
-            </div>
-            <div class="contact-field">
-              <label class="contact-label" for="cf-subject">SUBJECT</label>
-              <input class="contact-input" id="cf-subject" name="subject" type="text" placeholder="What's on your mind?" />
-            </div>
-            <div class="contact-field">
-              <label class="contact-label" for="cf-message">MESSAGE</label>
-              <textarea class="contact-input contact-textarea" id="cf-message" name="message" placeholder="Tell me more..." rows="5" required></textarea>
-            </div>
-            <button class="contact-submit btn btn-primary" type="submit">Send Message</button>
-          </form>
-        </div>
-
       </div>
-    </section>
+    </div>
 
     <Footer />
   </body>

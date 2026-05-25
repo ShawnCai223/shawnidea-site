@@ -2,30 +2,15 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
-const projects = [
-  {
-    title: 'AI Blog Generator',
-    date: 'Jul 2025',
-    tags: ['OpenAI API', 'JavaScript'],
-    link: '/projects/ai-blog-generator',
-    thumb: '/projects/ai-blog.jpg',
-  },
-];
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
 
-const posts = [
-  {
-    title: 'Getting your hands dirty vs. hitting the books first.',
-    date: 'Mar 20, 2026',
-    slug: 'getting-your-hands-dirty',
-  },
-  {
-    title: 'Hi, this is shawnidea.com',
-    date: 'Mar 14, 2026',
-    slug: 'hi-this-is-shawnidea',
-  },
-];
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 ---
 
 <html lang="en">
@@ -35,456 +20,87 @@ const posts = [
   <body>
     <Header />
 
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-grid"></div>
-      <div class="container">
-        <div class="hero-shell">
-          <div class="hero-content">
-            <div class="hero-name-meta">
-              <span class="hero-name-native">蔡俊达</span>
-            </div>
-            <h1 class="hero-name">Shawn Cai</h1>
-            <p class="hero-role">
-              <strong>Backend Engineer</strong> & Lifelong Learner<br>
-              Projects, ideas, and moments from life.
-            </p>
-            <div class="hero-chips">
-              <span class="chip">Go</span>
-              <span class="chip">Python</span>
-              <span class="chip">Distributed Systems</span>
-              <span class="chip">Writing</span>
-            </div>
-            <div class="hero-actions">
-              <a href="/projects" class="btn btn-primary">View Projects</a>
-              <a href="/contact" class="btn btn-ghost">Get in Touch</a>
-            </div>
-          </div>
+    <div class="page">
 
-          <div class="hero-aside">
-            <div class="code-titlebar">
-              <span></span><span></span><span></span>
-              <span class="code-filename">main.go</span>
-            </div>
-            <div class="code-body" set:html={`
-<span class="code-line"><span class="code-line-text"><span class="t-comment">// shawn.go</span></span></span>
-<span class="code-line"><span class="code-line-text"><span class="t-keyword">func</span> <span class="t-fn">Describe</span>(name <span class="t-keyword">string</span>) <span class="t-keyword">map</span>[<span class="t-keyword">string</span>]<span class="t-keyword">interface</span>{} {</span></span>
-<span class="code-line"><span class="code-line-text">  <span class="t-keyword">return</span> <span class="t-keyword">map</span>[<span class="t-keyword">string</span>]<span class="t-keyword">interface</span>{}{</span></span>
-<span class="code-line"><span class="code-line-text">    <span class="t-str">"name"</span>:      name,</span></span>
-<span class="code-line"><span class="code-line-text">    <span class="t-str">"role"</span>:      <span class="t-str">"engineer"</span>,</span></span>
-<span class="code-line"><span class="code-line-text">    <span class="t-str">"likes"</span>:     []<span class="t-keyword">string</span>{</span></span>
-<span class="code-line"><span class="code-line-text">      <span class="t-str">"clean code"</span>, <span class="t-str">"iced café"</span>,</span></span>
-<span class="code-line"><span class="code-line-text">    },</span></span>
-<span class="code-line"><span class="code-line-text">    <span class="t-str">"currently"</span>: <span class="t-str">"building &amp; writing"</span>,</span></span>
-<span class="code-line"><span class="code-line-text">  }</span></span>
-<span class="code-line"><span class="code-line-text">}</span></span>
-<span class="code-line"><span class="code-line-text"></span></span>
-<span class="code-line"><span class="code-line-text"><span class="t-keyword">var</span> me = <span class="t-fn">Describe</span>(<span class="t-str">"Shawn Cai"</span>)<span class="code-cursor"></span></span></span>`}></div>
-            <div class="code-statusbar">
-              <span>Go</span><span>INSERT</span><span>main.go</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="about-section">
+      <!-- Hero -->
       <div class="container">
-        <div class="about-layout">
-          <div class="about-photo-wrap">
-            <div class="about-photo">👤</div>
-          </div>
-          <div class="about-body">
-            <span class="eyebrow">About</span>
-            <h2 class="section-heading">I build things with code.<br>And write about life along the way.</h2>
-            <p>Engineer by profession, curious by nature. Here I share projects, thoughts, and small moments from life.</p>
-            <p>I care about clean systems, good writing, and the occasional iced café.</p>
-            <div class="about-grid-stats">
-              <div class="stat-cell">
-                <span class="stat-n">3+</span>
-                <span class="stat-l">Years Eng.</span>
-              </div>
-              <div class="stat-cell">
-                <span class="stat-n">10+</span>
-                <span class="stat-l">Projects</span>
-              </div>
-              <div class="stat-cell">
-                <span class="stat-n">∞</span>
-                <span class="stat-l">Curiosity</span>
-              </div>
-            </div>
-            <div style="margin-top:2rem; display:flex; gap:12px; flex-wrap:wrap;">
-              <a href="/resume" class="btn btn-primary">View Resume</a>
-              <a href="/about" class="btn btn-ghost">More About Me</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECTS -->
-    <section>
-      <div class="container">
-        <span class="eyebrow">Building</span>
-        <h2 class="section-heading">Featured Projects</h2>
-        <p class="section-lead">A selection of things I've built.</p>
-        <div class="projects-grid">
-          {projects.map(p => (
-            <a href={p.link} class="project-card">
-              <div class="project-thumb">
-                {p.thumb
-                  ? <img src={p.thumb} alt={p.title} />
-                  : <div class="project-thumb-label">
-                      <div class="project-thumb-abbr">{p.title.slice(0,2).toUpperCase()}</div>
-                    </div>
-                }
-              </div>
-              <div class="project-body">
-                <span class="project-date">{p.date}</span>
-                <h3 class="project-title">{p.title}</h3>
-                <div class="project-stack-line">
-                  {p.tags.map(t => <span class="project-stack-item">{t}</span>)}
-                </div>
-                <div style="margin-top:auto; padding-top:14px;">
-                  <span class="project-link">→ Details</span>
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-        <div style="margin-top:2.5rem; text-align:center;">
-          <a href="/projects" class="btn btn-primary">All Projects</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- BLOG -->
-    <section class="blog-section">
-      <div class="container">
-        <div class="blog-head">
-          <div>
-            <span class="eyebrow">Writing</span>
-            <h2 class="section-heading" style="margin-bottom:0;">Latest Blog</h2>
-          </div>
-          <a href="/blog" class="btn btn-primary">All blogs</a>
-        </div>
-        <div class="post-list">
-          {posts.map(p => (
-            <a href={`/blog/${p.slug}`} style="display:block; text-decoration:none; color:inherit;">
-              <div class="post-row">
-                <div class="post-title-col"><h3>{p.title}</h3></div>
-                <span class="post-date-col">{p.date}</span>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section>
-      <div class="container">
-        <div class="cta-inner">
-          <span class="eyebrow" style="text-align:center; display:block;">Let's work together</span>
-          <h2 class="section-heading">Got an interesting problem?</h2>
-          <p style="color:var(--ink-3); line-height:1.8; margin-bottom:2rem;">
-            I'm open to full-time roles, contract work, and good conversations about<br>hard engineering.
+        <div class="home-hero">
+          <span class="home-hero-eyebrow">
+            <span class="pulse"></span>San Diego · building, writing, exploring
+          </span>
+          <h1>Hi, I'm Shawn<span class="accent-mark">.</span></h1>
+          <p class="lead">
+            Engineer & maker building small, careful tools. I write about the process here.
           </p>
-          <a href="/contact" class="btn btn-primary">Get in Touch</a>
+          <div class="home-cta-row">
+            <a class="btn ghost cta-equal" href="/about">About me</a>
+            <a class="btn ghost cta-equal" href="/contact">Say hi</a>
+          </div>
         </div>
       </div>
-    </section>
+
+      <!-- Featured projects -->
+      <div class="container">
+        <div class="home-section">
+          <div class="home-section-head">
+            <h2 class="home-section-title">Featured projects</h2>
+            <a class="home-section-more" href="/projects">All work <span>›</span></a>
+          </div>
+          <div class="home-featured-grid">
+
+            <a class="home-feature-card" href="/projects/ai-blog-generator">
+              <div class="home-feature-thumb tinted">
+                <span class="thumb-mark">Project · 2025</span>
+                <span class="thumb-glyph">AI</span>
+              </div>
+              <h3>AI Blog Generator</h3>
+              <p>A simplified AI-powered content generator built with Flask and OpenAI.</p>
+              <div class="home-feature-meta">
+                <span class="chip accent">Python</span>
+                <span class="chip">Flask</span>
+                <span class="chip">OpenAI</span>
+              </div>
+            </a>
+
+            <a class="home-feature-card" href="/projects/fyyur">
+              <div class="home-feature-thumb">
+                <span class="thumb-mark">Project · 2026</span>
+                <span class="thumb-glyph">Fy</span>
+              </div>
+              <h3>Fyyur</h3>
+              <p>A musical venue & artist booking platform that connects local performing artists with venues.</p>
+              <div class="home-feature-meta">
+                <span class="chip accent">Python</span>
+                <span class="chip">PostgreSQL</span>
+                <span class="chip">Flask</span>
+              </div>
+            </a>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent notes -->
+      <div class="container">
+        <div class="home-section">
+          <div class="home-section-head">
+            <h2 class="home-section-title">Recent notes</h2>
+            <a class="home-section-more" href="/blog">All writing <span>›</span></a>
+          </div>
+          <div class="home-posts">
+            {posts.map(post => (
+              <a href={`/blog/${post.id}/`}>
+                <span class="post-date">{formatDate(post.data.pubDate)}</span>
+                <span class="post-title">{post.data.title}</span>
+                <span class="post-arrow">›</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+    </div>
 
     <Footer />
   </body>
 </html>
-
-<style>
-  /* ---- Hero ---- */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-    padding: 100px 0 60px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--rule) 1px, transparent 1px),
-      linear-gradient(90deg, var(--rule) 1px, transparent 1px);
-    background-size: 56px 56px;
-    opacity: 0.5;
-    pointer-events: none;
-    mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
-  }
-  .hero-shell {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.8fr);
-    align-items: center;
-    gap: clamp(32px, 5vw, 72px);
-  }
-  .hero-content { position: relative; z-index: 1; max-width: 640px; }
-
-  .hero-name-meta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px 14px;
-    margin-bottom: 0.9rem;
-    opacity: 0;
-    animation: rise 0.5s var(--ease-out) forwards 0.16s;
-  }
-  .hero-name-native {
-    font-family: var(--font-mono);
-    font-size: 0.84rem;
-    letter-spacing: 0.04em;
-    color: var(--accent);
-  }
-  .hero-name {
-    font-family: var(--font-script);
-    font-size: clamp(4.2rem, 9vw, 7.2rem);
-    font-weight: 400;
-    line-height: 0.95;
-    letter-spacing: 0;
-    margin-bottom: 0.5rem;
-    color: var(--ink);
-    opacity: 0;
-    animation: rise 0.5s var(--ease-out) forwards 0.25s;
-  }
-  .hero-role {
-    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
-    font-weight: 400;
-    color: var(--ink-3);
-    margin: 1rem 0 2rem;
-    line-height: 1.6;
-    opacity: 0;
-    animation: rise 0.5s var(--ease-out) forwards 0.4s;
-  }
-  .hero-role strong { color: var(--ink-2); font-weight: 600; }
-  .hero-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 2.5rem;
-    opacity: 0;
-    animation: rise 0.5s var(--ease-out) forwards 0.55s;
-  }
-  .hero-actions {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: rise 0.5s var(--ease-out) forwards 0.7s;
-  }
-
-  /* Code card */
-  .hero-aside {
-    position: relative;
-    width: min(420px, 100%);
-    margin-left: auto;
-    background: var(--surface-dark);
-    border: 1px solid var(--surface-dark-border);
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    opacity: 0;
-    animation: rise 0.6s var(--ease-out) forwards 0.8s;
-    box-shadow: 0 24px 64px rgba(0,0,0,0.18);
-  }
-  .code-titlebar {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 14px;
-    background: var(--surface-dark-2);
-    border-bottom: 1px solid var(--surface-dark-border);
-  }
-  .code-titlebar span {
-    display: block;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-  }
-  .code-titlebar span:nth-child(1) { background: #FF5F57; }
-  .code-titlebar span:nth-child(2) { background: #FFBD2E; }
-  .code-titlebar span:nth-child(3) { background: #28C840; }
-  .code-filename {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.35);
-    margin-left: 8px;
-  }
-  .code-body {
-    padding: 16px 0 12px;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    line-height: 1.75;
-    color: rgba(255,255,255,0.6);
-  }
-  .code-statusbar {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 10px 18px;
-    border-top: 1px solid var(--surface-dark-border);
-    background: rgba(255,255,255,0.03);
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.38);
-  }
-  /* ---- About ---- */
-  .about-section {
-    background: var(--bg-offset);
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-  }
-
-  /* ---- Projects ---- */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-  }
-  .project-card {
-    background: var(--bg-paper);
-    border: 1px solid var(--rule);
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    color: inherit;
-    transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
-  }
-  .project-card:hover {
-    border-color: var(--rule-strong);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.07);
-    transform: translateY(-3px);
-  }
-  .project-thumb {
-    height: 160px;
-    background: var(--surface-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  .project-thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .project-thumb-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-  }
-  .project-thumb-abbr {
-    font-family: var(--font-mono);
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.12);
-  }
-  .project-body {
-    padding: 22px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  .project-date {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    color: var(--ink-4);
-    font-weight: 700;
-    display: block;
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-  }
-  .project-title {
-    font-size: 1.05rem;
-    margin-bottom: 10px;
-    color: var(--ink);
-  }
-  .project-stack-line {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .project-stack-item {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    padding: 3px 10px;
-    background: transparent;
-    border: 1px solid var(--rule-strong);
-    color: var(--ink-3);
-    border-radius: 999px;
-  }
-  .project-link {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--ink-3);
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    transition: color var(--dur) var(--ease);
-  }
-  .project-card:hover .project-link { color: var(--accent); }
-
-  /* ---- Blog ---- */
-  .blog-section {
-    background: var(--bg-offset);
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-  }
-  .blog-head {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-    gap: 1rem;
-  }
-  .post-list { display: flex; flex-direction: column; }
-  .post-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 1.1rem 0;
-    border-bottom: 1px solid var(--rule);
-    gap: 1rem;
-  }
-  .post-row:first-child { border-top: 1px solid var(--rule); }
-  .post-title-col h3 {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--ink);
-    transition: color var(--dur) var(--ease);
-  }
-  a:hover .post-title-col h3 { color: var(--accent); }
-  .post-date-col {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    color: var(--ink-4);
-    white-space: nowrap;
-    margin-left: 2rem;
-  }
-
-  /* ---- CTA ---- */
-  .cta-inner {
-    max-width: 640px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  /* ---- Responsive ---- */
-  @media (max-width: 768px) {
-    .hero { padding: 4rem 0; }
-    .hero-shell { grid-template-columns: 1fr; gap: 2.5rem; }
-    .hero-aside { margin: 0 auto; }
-    .blog-head { flex-direction: column; align-items: flex-start; }
-  }
-</style>

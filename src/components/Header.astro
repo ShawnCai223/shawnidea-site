@@ -1,38 +1,39 @@
 ---
 const pathname = Astro.url.pathname;
+const isHome     = pathname === '/';
+const isProjects = pathname.startsWith('/projects');
+const isBlog     = pathname.startsWith('/blog');
+const isAbout    = pathname.startsWith('/about');
+const isContact  = pathname.startsWith('/contact');
 ---
 
-<nav class="site-nav" id="siteNav">
-  <div class="nav-inner">
-    <a href="/" class="nav-logo">
-      <span class="logo-dot"></span>ShawnIdea
+<header class="site-nav">
+  <div class="nav-pill" role="navigation" aria-label="Primary">
+    <a class="nav-brand" href="/">
+      <span class="brand-dot"></span>
+      <span>shawnidea</span>
     </a>
-
-    <ul class="nav-links" id="navLinks">
-      <li><a href="/" class:list={[{ active: pathname === '/' }]}>Home</a></li>
-      <li><a href="/projects" class:list={[{ active: pathname.startsWith('/projects') }]}>Projects</a></li>
-      <li><a href="/blog" class:list={[{ active: pathname.startsWith('/blog') }]}>Blog</a></li>
-      <li><a href="/about" class:list={[{ active: pathname.startsWith('/about') }]}>About</a></li>
-      <li><a href="/contact" class="nav-cta">Contact</a></li>
-    </ul>
-
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
+    <span class="nav-divider"></span>
+    <nav class="nav-links">
+      <a href="/"         class:list={[{ 'is-active': isHome }]}>Home</a>
+      <a href="/projects" class:list={[{ 'is-active': isProjects }]}>Projects</a>
+      <a href="/blog"     class:list={[{ 'is-active': isBlog }]}>Notes</a>
+      <a href="/about"    class:list={[{ 'is-active': isAbout }]}>About</a>
+      <a href="/contact"  class:list={[{ 'is-active': isContact }]}>Say hi</a>
+    </nav>
+    <span class="nav-divider"></span>
+    <button class="nav-theme-btn" id="theme-btn" aria-label="Toggle dark mode" title="Toggle theme">
+      <span class="icon-sun">☀︎</span>
+      <span class="icon-moon">☾</span>
     </button>
   </div>
-</nav>
+</header>
 
 <script>
-  const nav = document.getElementById('siteNav');
-  const toggle = document.getElementById('navToggle');
-  const links = document.getElementById('navLinks');
-
-  window.addEventListener('scroll', () => {
-    nav?.classList.toggle('scrolled', window.scrollY > 30);
-  });
-
-  toggle?.addEventListener('click', () => {
-    const open = links?.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', String(open));
+  const btn = document.getElementById('theme-btn');
+  btn?.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem('si-theme', next);
   });
 </script>

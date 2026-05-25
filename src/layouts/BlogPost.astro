@@ -6,10 +6,10 @@ import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate } = Astro.props;
+const { title, description, pubDate } = Astro.props;
 
 const formatDate = (d: Date) =>
-  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
 const allPosts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -19,9 +19,6 @@ const currentUrl = Astro.url.pathname.replace(/\/$/, '');
 const currentIndex = allPosts.findIndex(p => currentUrl.endsWith(p.id));
 const newer = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 const older = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
-
-const shortDate = (d: Date) =>
-  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 ---
 
 <html lang="en">
@@ -31,47 +28,59 @@ const shortDate = (d: Date) =>
   <body>
     <Header />
 
-    <div class="blog-post-page">
-      <div class="blog-post-hero">
-        <div class="container">
-          <a href="/blog" class="blog-back-btn">← Blog</a>
-          <h1 class="blog-post-title">{title}</h1>
-          <p class="blog-post-date">{formatDate(pubDate)}</p>
+    <div class="page" style="padding-top:0;">
+
+      <div class="bp-hero">
+        <div class="bp-hero-content">
+          <a class="bp-hero-back" href="/blog">‹ All notes</a>
+          <div class="bp-hero-eyebrow">
+            <span>Notes</span>
+            <span class="dot"></span>
+            <span>{formatDate(pubDate)}</span>
+          </div>
+          <h1>{title}</h1>
         </div>
       </div>
 
-      <div class="blog-post-shell container">
-        <div class="blog-post-card">
-          <div class="blog-post-content">
-            <slot />
+      <div class="bp-article">
+        <div class="bp-article-grid">
+          <div class="bp-meta">
+            <div class="author">
+              <div class="avatar"></div>
+              <span class="author-name">Shawn Cai</span>
+            </div>
+            <span class="read-time">Short read</span>
           </div>
 
-          <div class="blog-post-nav">
-            <div class="blog-nav-cell blog-nav-cell--newer">
-              {newer ? (
-                <a href={`/blog/${newer.id}/`} class="blog-nav-link">
-                  <span class="blog-nav-label">← NEWER</span>
-                  <span class="blog-nav-post-title">{newer.data.title}</span>
-                  <span class="blog-nav-post-date">{shortDate(newer.data.pubDate)}</span>
-                </a>
-              ) : (
-                <span class="blog-nav-empty">Already the newest blog</span>
-              )}
+          <slot />
+        </div>
+
+        <div class="bp-nav">
+          {newer ? (
+            <a class="bp-nav-card" href={`/blog/${newer.id}/`}>
+              <div class="label">‹ Newer</div>
+              <div class="title">{newer.data.title}</div>
+            </a>
+          ) : (
+            <div class="bp-nav-card" style="opacity:0.4; pointer-events:none;">
+              <div class="label">‹ Newer</div>
+              <div class="title">—</div>
             </div>
-            <div class="blog-nav-cell blog-nav-cell--older">
-              {older ? (
-                <a href={`/blog/${older.id}/`} class="blog-nav-link blog-nav-link--right">
-                  <span class="blog-nav-label">OLDER →</span>
-                  <span class="blog-nav-post-title">{older.data.title}</span>
-                  <span class="blog-nav-post-date">{shortDate(older.data.pubDate)}</span>
-                </a>
-              ) : (
-                <span class="blog-nav-empty blog-nav-empty--right">Already the oldest blog</span>
-              )}
+          )}
+          {older ? (
+            <a class="bp-nav-card right" href={`/blog/${older.id}/`}>
+              <div class="label">Older ›</div>
+              <div class="title">{older.data.title}</div>
+            </a>
+          ) : (
+            <div class="bp-nav-card right" style="opacity:0.4; pointer-events:none;">
+              <div class="label">Older ›</div>
+              <div class="title">—</div>
             </div>
-          </div>
+          )}
         </div>
       </div>
+
     </div>
 
     <Footer />

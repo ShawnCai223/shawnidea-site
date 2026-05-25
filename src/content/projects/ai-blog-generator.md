@@ -7,6 +7,8 @@ languages: ['JavaScript', 'Python', 'HTML', 'Shell']
 stack: ['OpenAI API', 'Flask', 'JavaScript']
 github: 'https://github.com/ShawnCai223/ai-blog-generator'
 demo: ''
+role: 'Design & build'
+glyph: 'AI'
 ---
 
 ## Overview

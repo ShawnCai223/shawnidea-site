@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
@@ -11,50 +10,43 @@ const posts = (await getCollection('blog')).sort(
 
 const formatDate = (d: Date) =>
   d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+// Assign a thumb style per post (cycle through options)
+const thumbStyles = ['t-orange', '', 't-dark', ''];
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title="Blog — Shawn Cai" description="Notes on systems, algorithms, and whatever I happen to be thinking about." />
+    <BaseHead title="Notes — Shawn Cai" description="Some thoughts about building, traveling, and being. Updated when there's something worth saying." />
   </head>
   <body>
     <Header />
 
-    <section class="page-hero">
+    <div class="page">
       <div class="container">
-        <span class="eyebrow">Writing</span>
-        <h1>Blog</h1>
-        <p style="font-size:1.05rem; margin-top:1rem; max-width:55ch; color:var(--ink-3);">
-          Notes on systems, algorithms, and whatever I happen to be thinking about.
-        </p>
-      </div>
-    </section>
+        <div class="page-hero">
+          <span class="eyebrow accent">Notes · journal</span>
+          <h1>Notes.</h1>
+          <p class="lead">Some thoughts about building, traveling, and being. Updated when there's something worth saying.</p>
+        </div>
 
-    <section class="blog-list-section">
-      <div class="container">
-        <div class="blog-post-list">
-          {posts.map((post) => (
-            <a href={`/blog/${post.id}/`} class="blog-post-row">
-              <div class="blog-post-row-main">
-                <div class="blog-post-row-date">{formatDate(post.data.pubDate)}</div>
-                <div class="blog-post-row-body">
-                  <h2 class="blog-post-row-title">{post.data.title}</h2>
-                  {post.data.description && (
-                    <p class="blog-post-row-excerpt">{post.data.description}</p>
-                  )}
-                </div>
+        <div class="blog-list">
+          {posts.map((post, i) => (
+            <a class="blog-row" href={`/blog/${post.id}/`}>
+              <span class="blog-row-date">{formatDate(post.data.pubDate)}</span>
+              <div class="blog-row-body">
+                <div class="blog-row-title">{post.data.title}</div>
+                {post.data.description && (
+                  <div class="blog-row-excerpt">{post.data.description}</div>
+                )}
               </div>
-              {post.data.heroImage && (
-                <div class="blog-post-row-thumb">
-                  <Image width={160} height={100} src={post.data.heroImage} alt={post.data.title} />
-                </div>
-              )}
+              <div class={`blog-row-thumb ${thumbStyles[i % thumbStyles.length]}`}></div>
             </a>
           ))}
         </div>
       </div>
-    </section>
+    </div>
 
     <Footer />
   </body>

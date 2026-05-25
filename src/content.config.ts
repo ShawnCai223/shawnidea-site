@@ -29,6 +29,8 @@ const projects = defineCollection({
 		stack: z.array(z.string()).default([]),
 		github: z.string().optional(),
 		demo: z.string().optional(),
+		role: z.string().optional(),
+		glyph: z.string().optional(),
 	}),
 });
 

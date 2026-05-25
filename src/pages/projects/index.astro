@@ -2,91 +2,94 @@
 import BaseHead from '../../components/BaseHead.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-
-const projects = [
-  {
-    title: 'AI Blog Generator',
-    date: 'Jul 2, 2025',
-    subtitle: 'A simplified AI-powered content generator built with Flask and OpenAI.',
-    languages: ['JavaScript', 'Python', 'HTML', 'Shell'],
-    stack: ['OpenAI-API', 'javascript'],
-    image: '/projects/ai-blog.jpg',
-    link: '/projects/ai-blog-generator',
-  },
-  {
-    title: 'Fyyur',
-    date: 'Mar 2, 2026',
-    subtitle: '',
-    languages: ['Python'],
-    stack: ['Fullstack'],
-    image: '',
-    link: '/projects/fyyur',
-  },
-];
 ---
 
 <html lang="en">
   <head>
-    <BaseHead title="Projects — Shawn Cai" description="A closer look at the tools, systems, and experiments behind the work." />
+    <BaseHead title="Projects — Shawn Cai" description="A small catalogue of things I've built, broken, and learned from." />
   </head>
   <body>
     <Header />
 
-    <section class="page-hero">
+    <div class="page">
       <div class="container">
-        <span class="eyebrow">Building</span>
-        <h1>Projects</h1>
-        <p style="font-size:1.05rem; margin-top:1rem; max-width:55ch; color:var(--ink-3);">
-          A closer look at the tools, systems, and experiments behind the work.
-        </p>
-      </div>
-    </section>
+        <div class="page-hero">
+          <span class="eyebrow accent">Work · 2024 — present</span>
+          <h1>Selected work.</h1>
+          <p class="lead">A small catalogue of things I've built, broken, and learned from. Most code lives on GitHub.</p>
+        </div>
 
-    <section>
-      <div class="container">
-        <div class="projects-list">
-          {projects.map(p => (
-            <a href={p.link} class="project-row-card">
-              <div class="project-banner">
-                {p.image
-                  ? <img src={p.image} alt={p.title} />
-                  : <span class="project-banner-abbr">{p.title.slice(0, 2).toUpperCase()}</span>
-                }
+        <div class="projects-grid">
+
+          <a class="project-tile" href="/projects/ai-blog-generator">
+            <div class="project-tile-thumb t-orange">
+              <span class="tile-mark">Web app</span>
+              <span class="tile-glyph">AI</span>
+            </div>
+            <h3>AI Blog Generator <span class="year">2025</span></h3>
+            <p>A simplified AI-powered content generator. Type a topic, pick a tone, get a structured article from OpenAI.</p>
+            <div class="project-tile-bottom">
+              <div class="chips">
+                <span class="chip accent">Python</span>
+                <span class="chip">Flask</span>
+                <span class="chip">OpenAI</span>
               </div>
+              <span class="read-more">Read case <span>›</span></span>
+            </div>
+          </a>
 
-              <div class="project-row-main">
-                <h3 class="project-title">{p.title}</h3>
-                {p.subtitle && <div class="project-subtitle">{p.subtitle}</div>}
-
-                <div class="project-meta-groups">
-                  {p.languages.length > 0 && (
-                    <div class="project-meta-group">
-                      <span class="project-meta-label">Languages</span>
-                      <div class="project-langs">
-                        {p.languages.map(l => <span class="project-lang">{l}</span>)}
-                      </div>
-                    </div>
-                  )}
-                  {p.stack.length > 0 && (
-                    <div class="project-meta-group">
-                      <span class="project-meta-label">Tech Stack</span>
-                      <div class="project-stack-line">
-                        {p.stack.map(s => <span class="project-stack-item">{s}</span>)}
-                      </div>
-                    </div>
-                  )}
-                </div>
+          <a class="project-tile" href="/projects/fyyur">
+            <div class="project-tile-thumb t-gray">
+              <span class="tile-mark">Full stack</span>
+              <span class="tile-glyph">Fy</span>
+            </div>
+            <h3>Fyyur <span class="year">2026</span></h3>
+            <p>Booking platform for local artists & venues. Database modelling, migrations, and server-rendered Flask + SQLAlchemy.</p>
+            <div class="project-tile-bottom">
+              <div class="chips">
+                <span class="chip accent">Python</span>
+                <span class="chip">PostgreSQL</span>
+                <span class="chip">SQLAlchemy</span>
               </div>
+              <span class="read-more">Read case <span>›</span></span>
+            </div>
+          </a>
 
-              <div class="project-row-side">
-                <div class="project-row-date">{p.date}</div>
-                <span class="project-row-detail">Details →</span>
+          <a class="project-tile" href="/projects/shawnidea">
+            <div class="project-tile-thumb t-dark">
+              <span class="tile-mark">This site</span>
+              <span class="tile-glyph">si</span>
+            </div>
+            <h3>shawnidea.com <span class="year">2026</span></h3>
+            <p>Personal site & blog. Astro static build on AWS EC2 + S3, domain through Cloudflare.</p>
+            <div class="project-tile-bottom">
+              <div class="chips">
+                <span class="chip accent">TypeScript</span>
+                <span class="chip">Astro</span>
+                <span class="chip">AWS</span>
               </div>
-            </a>
-          ))}
+              <span class="read-more">Read case <span>›</span></span>
+            </div>
+          </a>
+
+          <a class="project-tile" href="/projects">
+            <div class="project-tile-thumb">
+              <span class="tile-mark">Coming soon</span>
+              <span class="tile-glyph">04</span>
+            </div>
+            <h3>Untitled · 04 <span class="year">2026</span></h3>
+            <p>A placeholder for the next project. Replace the slug and the case body when it ships.</p>
+            <div class="project-tile-bottom">
+              <div class="chips">
+                <span class="chip outline">In progress</span>
+              </div>
+              <span class="read-more">Soon <span>›</span></span>
+            </div>
+          </a>
+
         </div>
       </div>
-    </section>
+    </div>
 
     <Footer />
   </body>
