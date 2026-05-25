@@ -1,15 +1,93 @@
 ---
+import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+
+const projects = [
+  {
+    title: 'AI Blog Generator',
+    date: 'Jul 2, 2025',
+    subtitle: 'A simplified AI-powered content generator built with Flask and OpenAI.',
+    languages: ['JavaScript', 'Python', 'HTML', 'Shell'],
+    stack: ['OpenAI-API', 'javascript'],
+    image: '/projects/ai-blog.jpg',
+    link: '/projects/ai-blog-generator',
+  },
+  {
+    title: 'Fyyur',
+    date: 'Mar 2, 2026',
+    subtitle: '',
+    languages: ['Python'],
+    stack: ['Fullstack'],
+    image: '',
+    link: '/projects/fyyur',
+  },
+];
 ---
+
 <html lang="en">
-  <head><meta charset="utf-8"><title>Projects | Shawn Cai</title></head>
+  <head>
+    <BaseHead title="Projects — Shawn Cai" description="A closer look at the tools, systems, and experiments behind the work." />
+  </head>
   <body>
     <Header />
-    <main style="max-width:1100px; margin:0 auto; padding:4rem 2rem;">
-      <h1>Projects</h1>
-      <p>Coming soon.</p>
-    </main>
+
+    <section class="page-hero">
+      <div class="container">
+        <span class="eyebrow">Building</span>
+        <h1>Projects</h1>
+        <p style="font-size:1.05rem; margin-top:1rem; max-width:55ch; color:var(--ink-3);">
+          A closer look at the tools, systems, and experiments behind the work.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="projects-list">
+          {projects.map(p => (
+            <a href={p.link} class="project-row-card">
+              <div class="project-banner">
+                {p.image
+                  ? <img src={p.image} alt={p.title} />
+                  : <span class="project-banner-abbr">{p.title.slice(0, 2).toUpperCase()}</span>
+                }
+              </div>
+
+              <div class="project-row-main">
+                <h3 class="project-title">{p.title}</h3>
+                {p.subtitle && <div class="project-subtitle">{p.subtitle}</div>}
+
+                <div class="project-meta-groups">
+                  {p.languages.length > 0 && (
+                    <div class="project-meta-group">
+                      <span class="project-meta-label">Languages</span>
+                      <div class="project-langs">
+                        {p.languages.map(l => <span class="project-lang">{l}</span>)}
+                      </div>
+                    </div>
+                  )}
+                  {p.stack.length > 0 && (
+                    <div class="project-meta-group">
+                      <span class="project-meta-label">Tech Stack</span>
+                      <div class="project-stack-line">
+                        {p.stack.map(s => <span class="project-stack-item">{s}</span>)}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div class="project-row-side">
+                <div class="project-row-date">{p.date}</div>
+                <span class="project-row-detail">Details →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <Footer />
   </body>
 </html>
