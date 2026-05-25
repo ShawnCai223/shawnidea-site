@@ -229,9 +229,23 @@ html[data-theme="dark"] .nav-theme-btn { background: rgba(255,255,255,0.08); col
 html[data-theme="dark"] .nav-theme-btn:hover { background: rgba(255,255,255,0.14); }
 
 @media (max-width: 640px) {
-  .nav-pill { padding: 6px 6px 6px 14px; gap: 8px; }
+  /* Slightly tighten nav — keep brand + centering */
   .nav-pill .nav-divider { display: none; }
-  .nav-links a { font-size: 12px; padding: 6px 10px; }
+  .nav-links a { font-size: 12.5px; padding: 6px 10px; }
+  .container { padding: 0 20px; }
+}
+@media (max-width: 500px) {
+  /* Phone: left-align, hide brand text + Home, go compact */
+  .site-nav { justify-content: flex-start; padding: 0 12px; }
+  .nav-pill { padding: 5px 6px; gap: 4px; }
+  .nav-brand span:not(.brand-dot) { display: none; }
+  .nav-links a:first-child { display: none; } /* Home — brand dot covers it */
+  .nav-links a { font-size: 12px; padding: 5px 9px; white-space: nowrap; }
+  .nav-theme-btn { width: 28px; height: 28px; font-size: 13px; flex-shrink: 0; }
+}
+@media (max-width: 480px) {
+  .nav-links a { font-size: 11.5px; padding: 5px 7px; }
+  .container { padding: 0 16px; }
 }
 
 /* ============================================================
@@ -459,9 +473,9 @@ html[data-theme="dark"] .nav-theme-btn:hover { background: rgba(255,255,255,0.14
 /* ============================================================
    PROJECTS — Big tiles (2-col grid)
    ============================================================ */
-.page-hero { padding: 8px 0 8px; }
-.page-hero h1 { margin-bottom: 12px; }
-.page-hero .lead { margin-bottom: 4px; }
+.page-hero { padding: 0 0 24px; }
+.page-hero h1 { font-size: clamp(1.8rem, 3vw, 2.6rem); margin-top: 8px; margin-bottom: 10px; }
+.page-hero .lead { margin-bottom: 0; max-width: 52ch; }
 
 .projects-grid {
   display: grid;
@@ -637,6 +651,8 @@ html[data-theme="dark"] .nav-theme-btn:hover { background: rgba(255,255,255,0.14
   font-size: 1.02rem;
   line-height: 1.78;
   color: var(--ink-2);
+  min-width: 0;          /* prevent grid blowout */
+  overflow-wrap: break-word;
 }
 .pd-body h2 { margin: 36px 0 14px; font-size: 1.4rem; }
 .pd-body h2:first-child { margin-top: 0; }
@@ -742,6 +758,13 @@ html[data-theme="dark"] .nav-theme-btn:hover { background: rgba(255,255,255,0.14
   .pd-layout { grid-template-columns: 1fr; gap: 28px; }
   .pd-meta { position: static; }
   .pd-hero-image .hero-glyph { font-size: 140px; bottom: -16px; }
+}
+@media (max-width: 640px) {
+  .pd-hero-image { height: 180px; border-radius: var(--r); width: 100%; }
+  .pd-hero-image .hero-glyph { font-size: 100px; bottom: -10px; }
+  .pd-hero h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+  .pd-back { font-size: 13px; }
+  .pd-hero { overflow-x: hidden; }
 }
 
 /* ============================================================
@@ -1132,7 +1155,9 @@ html[data-theme="dark"] .nav-theme-btn:hover { background: rgba(255,255,255,0.14
   flex-wrap: wrap;
 }
 .cv-card-title { font-family: var(--font-sf); font-size: 1.04rem; font-weight: 700; letter-spacing: -0.015em; color: var(--ink); }
-.cv-card-meta { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-4); letter-spacing: 0.02em; }
+.cv-card-loc { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-4); letter-spacing: 0.02em; flex-shrink: 0; }
+.cv-card-role { font-size: 0.94rem; color: var(--ink-3); }
+.cv-card-meta { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-4); letter-spacing: 0.02em; flex-shrink: 0; }
 .cv-card-sub { font-size: 0.94rem; color: var(--ink-3); }
 .cv-card-points {
   display: flex;
