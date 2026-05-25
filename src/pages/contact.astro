@@ -1,15 +1,88 @@
 ---
+import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+
+const links = [
+  { abbr: 'em', label: 'hi@shawnidea.com', href: 'mailto:hi@shawnidea.com' },
+  { abbr: 'gh', label: 'GitHub',           href: 'https://github.com/ShawnCai223' },
+  { abbr: 'in', label: 'LinkedIn',         href: 'https://linkedin.com/in/shawncai' },
+];
 ---
+
 <html lang="en">
-  <head><meta charset="utf-8"><title>Projects | Shawn Cai</title></head>
+  <head>
+    <BaseHead title="Contact — Shawn Cai" description="If you'd like to talk about projects, ideas, or just say hello, feel free to reach out." />
+  </head>
   <body>
     <Header />
-    <main style="max-width:1100px; margin:0 auto; padding:4rem 2rem;">
-      <h1>Projects</h1>
-      <p>Coming soon.</p>
-    </main>
+
+    <section class="page-hero">
+      <div class="container">
+        <span class="eyebrow">Contact</span>
+        <h1>Let's talk</h1>
+        <p style="font-size:1.05rem; margin-top:1rem; max-width:55ch; color:var(--ink-3);">
+          If you'd like to talk about projects, ideas, or just say hello, feel free to reach out.
+        </p>
+      </div>
+    </section>
+
+    <section class="contact-section">
+      <div class="container contact-grid">
+
+        <!-- Left: direct links -->
+        <div class="contact-direct">
+          <p class="contact-section-eyebrow">DIRECT</p>
+          <h2 class="contact-section-title">Find me here</h2>
+          <p class="contact-section-sub">I try to reply as soon as possible.</p>
+
+          <div class="contact-links">
+            {links.map(l => (
+              <a href={l.href} target="_blank" rel="noopener" class="contact-link-row">
+                <span class="contact-link-abbr">{l.abbr}</span>
+                <span class="contact-link-label">{l.label}</span>
+                <svg class="contact-link-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+              </a>
+            ))}
+          </div>
+
+          <div class="contact-support-card">
+            <p class="contact-section-eyebrow" style="margin-bottom:12px;">SUPPORT</p>
+            <p class="contact-support-text">Buy me a coffee if you enjoy this site.</p>
+            <p class="contact-support-sub">Scan the code in your PayPal app.</p>
+          </div>
+        </div>
+
+        <!-- Right: contact form -->
+        <div class="contact-form-card">
+          <p class="contact-section-eyebrow">MESSAGE</p>
+          <h2 class="contact-form-title">Send a note</h2>
+          <p class="contact-form-sub">Leave a message using the form below.</p>
+
+          <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <div class="contact-field">
+              <label class="contact-label" for="cf-name">NAME</label>
+              <input class="contact-input" id="cf-name" name="name" type="text" placeholder="Your name" required />
+            </div>
+            <div class="contact-field">
+              <label class="contact-label" for="cf-email">EMAIL</label>
+              <input class="contact-input" id="cf-email" name="email" type="email" placeholder="you@example.com" required />
+            </div>
+            <div class="contact-field">
+              <label class="contact-label" for="cf-subject">SUBJECT</label>
+              <input class="contact-input" id="cf-subject" name="subject" type="text" placeholder="What's on your mind?" />
+            </div>
+            <div class="contact-field">
+              <label class="contact-label" for="cf-message">MESSAGE</label>
+              <textarea class="contact-input contact-textarea" id="cf-message" name="message" placeholder="Tell me more..." rows="5" required></textarea>
+            </div>
+            <button class="contact-submit btn btn-primary" type="submit">Send Message</button>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
     <Footer />
   </body>
 </html>
