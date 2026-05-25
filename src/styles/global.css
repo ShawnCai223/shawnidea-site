@@ -16,10 +16,10 @@
   --ink-3:        #6B6B6B;
   --ink-4:        #9A9A9A;
 
-  --accent:       #000000;
-  --accent-light: #333333;
-  --accent-bg:    rgba(0, 0, 0, 0.05);
-  --accent-border:rgba(0, 0, 0, 0.18);
+  --accent:       #E86C2F;
+  --accent-light: #F5A574;
+  --accent-bg:    rgba(232, 108, 47, 0.08);
+  --accent-border:rgba(232, 108, 47, 0.25);
 
   --rule:         rgba(26,26,26,0.1);
   --rule-strong:  rgba(26,26,26,0.18);
@@ -161,14 +161,14 @@ section { padding: clamp(64px, 10vw, 120px) 0; }
   font-size: 0.96rem !important;
   font-weight: 500 !important;
   color: var(--accent) !important;
-  border: 1px solid rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(232, 108, 47, 0.35);
   padding: 10px 18px !important;
   border-radius: var(--r-sm);
   background: rgba(253, 251, 248, 0.82);
   transition: background var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease) !important;
 }
 .nav-cta:hover {
-  background: rgba(0, 0, 0, 0.05) !important;
+  background: rgba(232, 108, 47, 0.08) !important;
   color: var(--accent) !important;
   border-color: var(--accent) !important;
 }
@@ -212,7 +212,7 @@ section { padding: clamp(64px, 10vw, 120px) 0; }
   color: #fff;
 }
 .btn-primary:hover {
-  background: #222222;
+  background: #D05A1F;
   color: #fff;
   transform: translateY(-1px);
   box-shadow: 0 4px 16px rgba(232,108,47,0.3);
@@ -327,7 +327,7 @@ section { padding: clamp(64px, 10vw, 120px) 0; }
 .t-str      { color: #9ECE6A; }
 .t-num      { color: #F7C948; }
 .t-var      { color: #E2C08D; }
-.t-accent   { color: #FFFFFF; }
+.t-accent   { color: #E86C2F; }
 
 /* Mobile nav */
 @media (max-width: 768px) {
