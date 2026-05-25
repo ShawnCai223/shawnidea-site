@@ -2,9 +2,6 @@
  * Notion → Astro content sync
  * Usage: npm run sync
  *
- * Reads from two Notion databases and writes Markdown files into
- * src/content/blog/ and src/content/projects/.
- *
  * Required .env vars:
  *   NOTION_TOKEN          — Integration secret
  *   NOTION_BLOG_DB        — Blog database ID
@@ -12,12 +9,11 @@
  */
 
 import { Client } from '@notionhq/client';
-import { NotionToMarkdown } from 'notion-to-md';
 import slugify from 'slugify';
 import fs from 'fs';
 import path from 'path';
 
-// Load .env manually (no dotenv dependency needed in Node 20+)
+// Load .env
 try {
   const env = fs.readFileSync('.env', 'utf8');
   for (const line of env.split('\n')) {
@@ -34,25 +30,23 @@ if (!NOTION_TOKEN) {
 }
 
 const notion = new Client({ auth: NOTION_TOKEN });
-const n2m = new NotionToMarkdown({ notionClient: notion });
-
 const CONTENT_ROOT = path.resolve('src/content');
 
-// ── helpers ─────────────────────────────────────────────────────────────────
+// ── property helpers ─────────────────────────────────────────────────────────
 
 function prop(page, name) {
-  return page.properties[name];
+  return page.properties?.[name];
 }
 
 function richText(p) {
   return p?.rich_text?.map((t) => t.plain_text).join('') ?? '';
 }
 
-function title(p) {
+function titleProp(p) {
   return p?.title?.map((t) => t.plain_text).join('') ?? '';
 }
 
-function date(p) {
+function dateProp(p) {
   return p?.date?.start ?? '';
 }
 
@@ -60,7 +54,7 @@ function multi(p) {
   return p?.multi_select?.map((s) => s.name) ?? [];
 }
 
-function url(p) {
+function urlProp(p) {
   return p?.url ?? '';
 }
 
@@ -81,55 +75,76 @@ function yamlArr(arr) {
   return '[' + arr.map((s) => JSON.stringify(s)).join(', ') + ']';
 }
 
-async function pageToMarkdown(pageId) {
-  const blocks = await n2m.pageToMarkdown(pageId);
-  return n2m.toMarkdownString(blocks).parent.trim();
+// ── fetch pages from a database ──────────────────────────────────────────────
+
+async function queryDatabase(dbId, statusValue = 'Published') {
+  try {
+    const res = await notion.dataSources.query({
+      data_source_id: dbId,
+      filter: { property: 'Status', status: { equals: statusValue } },
+    });
+    return res.results ?? [];
+  } catch (e) {
+    console.warn('  Querying without Status filter:', e.message);
+    try {
+      const res = await notion.dataSources.query({ data_source_id: dbId });
+      return res.results ?? [];
+    } catch (e2) {
+      console.error('  Failed to query database:', e2.message);
+      return [];
+    }
+  }
+}
+
+// ── get page body as Markdown ────────────────────────────────────────────────
+
+async function getMarkdown(pageId) {
+  try {
+    const res = await notion.pages.retrieveMarkdown({ page_id: pageId });
+    return res.markdown?.trim() ?? '';
+  } catch {
+    return '';
+  }
 }
 
 // ── blog sync ────────────────────────────────────────────────────────────────
 
 async function syncBlog() {
   if (!NOTION_BLOG_DB) {
-    console.log('NOTION_BLOG_DB not set — skipping blog sync');
+    console.log('NOTION_BLOG_DB not set — skipping');
     return;
   }
 
   const outDir = path.join(CONTENT_ROOT, 'blog');
   fs.mkdirSync(outDir, { recursive: true });
 
-  const { results } = await notion.databases.query({
-    database_id: NOTION_BLOG_DB,
-    filter: { property: 'Status', status: { equals: 'Published' } },
-  });
-
+  const pages = await queryDatabase(NOTION_BLOG_DB, 'Published');
   let count = 0;
-  for (const page of results) {
-    const titleVal = title(prop(page, 'Title'));
-    if (!titleVal) continue;
+
+  for (const page of pages) {
+    const t = titleProp(prop(page, 'Title'));
+    if (!t) continue;
 
     const description = richText(prop(page, 'Description'));
-    const pubDate = formatDate(date(prop(page, 'Date')));
-    const heroImage = url(prop(page, 'HeroImage'));
+    const pubDate = formatDate(dateProp(prop(page, 'Date')));
+    const heroImage = urlProp(prop(page, 'HeroImage'));
+    const slug = richText(prop(page, 'Slug')) || toSlug(t);
+    const body = await getMarkdown(page.id);
 
-    const slug = richText(prop(page, 'Slug')) || toSlug(titleVal);
-    const body = await pageToMarkdown(page.id);
-
-    const frontmatter = [
+    const fm = [
       '---',
-      `title: ${yamlStr(titleVal)}`,
+      `title: ${yamlStr(t)}`,
       `description: ${yamlStr(description)}`,
       `pubDate: '${pubDate}'`,
-      heroImage ? `heroImage: ${yamlStr(heroImage)}` : '',
+      heroImage ? `heroImage: ${yamlStr(heroImage)}` : null,
       '---',
-    ]
-      .filter(Boolean)
-      .join('\n');
+    ].filter(l => l !== null).join('\n');
 
-    const file = path.join(outDir, `${slug}.md`);
-    fs.writeFileSync(file, frontmatter + '\n\n' + body + '\n');
+    fs.writeFileSync(path.join(outDir, `${slug}.md`), fm + '\n\n' + body + '\n');
     console.log(`  blog → ${slug}.md`);
     count++;
   }
+
   console.log(`Blog: synced ${count} post(s)`);
 }
 
@@ -137,58 +152,52 @@ async function syncBlog() {
 
 async function syncProjects() {
   if (!NOTION_PROJECTS_DB) {
-    console.log('NOTION_PROJECTS_DB not set — skipping projects sync');
+    console.log('NOTION_PROJECTS_DB not set — skipping');
     return;
   }
 
   const outDir = path.join(CONTENT_ROOT, 'projects');
   fs.mkdirSync(outDir, { recursive: true });
 
-  const { results } = await notion.databases.query({
-    database_id: NOTION_PROJECTS_DB,
-    filter: { property: 'Status', status: { equals: 'Published' } },
-  });
-
+  const pages = await queryDatabase(NOTION_PROJECTS_DB, 'Done');
   let count = 0;
-  for (const page of results) {
-    const titleVal = title(prop(page, 'Title'));
-    if (!titleVal) continue;
+
+  for (const page of pages) {
+    const t = titleProp(prop(page, 'Title'));
+    if (!t) continue;
 
     const description = richText(prop(page, 'Description'));
-    const pubDate = formatDate(date(prop(page, 'Date')));
+    const pubDate = formatDate(dateProp(prop(page, 'Date')));
     const languages = multi(prop(page, 'Languages'));
     const stack = multi(prop(page, 'Stack'));
-    const github = url(prop(page, 'GitHub'));
-    const demo = url(prop(page, 'Demo'));
+    const github = urlProp(prop(page, 'GitHub'));
+    const demo = urlProp(prop(page, 'Demo'));
     const role = richText(prop(page, 'Role'));
     const glyph = richText(prop(page, 'Glyph'));
-    const heroImage = url(prop(page, 'HeroImage'));
+    const heroImage = urlProp(prop(page, 'HeroImage'));
+    const slug = richText(prop(page, 'Slug')) || toSlug(t);
+    const body = await getMarkdown(page.id);
 
-    const slug = richText(prop(page, 'Slug')) || toSlug(titleVal);
-    const body = await pageToMarkdown(page.id);
-
-    const frontmatter = [
+    const fm = [
       '---',
-      `title: ${yamlStr(titleVal)}`,
+      `title: ${yamlStr(t)}`,
       `description: ${yamlStr(description)}`,
       `pubDate: '${pubDate}'`,
       heroImage ? `heroImage: ${yamlStr(heroImage)}` : "heroImage: ''",
       `languages: ${yamlArr(languages)}`,
       `stack: ${yamlArr(stack)}`,
-      github ? `github: ${yamlStr(github)}` : '',
-      demo ? `demo: ${yamlStr(demo)}` : '',
-      role ? `role: ${yamlStr(role)}` : '',
-      glyph ? `glyph: ${yamlStr(glyph)}` : '',
+      github ? `github: ${yamlStr(github)}` : null,
+      demo ? `demo: ${yamlStr(demo)}` : null,
+      role ? `role: ${yamlStr(role)}` : null,
+      glyph ? `glyph: ${yamlStr(glyph)}` : null,
       '---',
-    ]
-      .filter((l) => l !== '')
-      .join('\n');
+    ].filter(l => l !== null).join('\n');
 
-    const file = path.join(outDir, `${slug}.md`);
-    fs.writeFileSync(file, frontmatter + '\n\n' + body + '\n');
+    fs.writeFileSync(path.join(outDir, `${slug}.md`), fm + '\n\n' + body + '\n');
     console.log(`  project → ${slug}.md`);
     count++;
   }
+
   console.log(`Projects: synced ${count} project(s)`);
 }
 
