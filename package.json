@@ -9,13 +9,18 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "sync": "node scripts/notion-sync.mjs",
+    "publish": "node scripts/notion-sync.mjs && git add src/content && git commit -m 'content: sync from Notion' && git push"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.6",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
+    "@notionhq/client": "^5.22.0",
     "astro": "^6.3.7",
-    "sharp": "^0.34.3"
+    "notion-to-md": "^3.1.9",
+    "sharp": "^0.34.3",
+    "slugify": "^1.6.9"
   }
 }
