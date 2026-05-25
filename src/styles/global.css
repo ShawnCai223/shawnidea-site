@@ -2,8 +2,8 @@
    DESIGN TOKENS
    ========================================== */
 :root {
-  --bg:           #F5F5F7;
-  --bg-offset:    #EBEBED;
+  --bg:           #F0F7F7;
+  --bg-offset:    #E4EFEF;
   --bg-paper:     #FFFFFF;
 
   --surface-dark:      #1C1C1E;
