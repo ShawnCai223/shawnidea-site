@@ -91,12 +91,33 @@ const posts = [
     <!-- ABOUT -->
     <section class="about-section">
       <div class="container">
-        <div class="about-inner">
-          <span class="eyebrow">About</span>
-          <h2 class="section-heading">I build things with code.<br>And write about life along the way.</h2>
-          <p style="color:var(--ink-3); line-height:1.8;">Engineer by profession, curious by nature.<br>Here I share projects, thoughts, and small moments from life.</p>
-          <div style="margin-top:2rem;">
-            <a href="/resume" class="btn btn-primary">View Resume</a>
+        <div class="about-layout">
+          <div class="about-photo-wrap">
+            <div class="about-photo">👤</div>
+          </div>
+          <div class="about-body">
+            <span class="eyebrow">About</span>
+            <h2 class="section-heading">I build things with code.<br>And write about life along the way.</h2>
+            <p>Engineer by profession, curious by nature. Here I share projects, thoughts, and small moments from life.</p>
+            <p>I care about clean systems, good writing, and the occasional iced café.</p>
+            <div class="about-grid-stats">
+              <div class="stat-cell">
+                <span class="stat-n">3+</span>
+                <span class="stat-l">Years Eng.</span>
+              </div>
+              <div class="stat-cell">
+                <span class="stat-n">10+</span>
+                <span class="stat-l">Projects</span>
+              </div>
+              <div class="stat-cell">
+                <span class="stat-n">∞</span>
+                <span class="stat-l">Curiosity</span>
+              </div>
+            </div>
+            <div style="margin-top:2rem; display:flex; gap:12px; flex-wrap:wrap;">
+              <a href="/resume" class="btn btn-primary">View Resume</a>
+              <a href="/about" class="btn btn-ghost">More About Me</a>
+            </div>
           </div>
         </div>
       </div>
@@ -324,12 +345,6 @@ const posts = [
     border-top: 1px solid var(--rule);
     border-bottom: 1px solid var(--rule);
   }
-  .about-inner {
-    max-width: 640px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .about-inner .eyebrow { text-align: center; }
 
   /* ---- Projects ---- */
   .projects-grid {
