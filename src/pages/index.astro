@@ -7,7 +7,11 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
 const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 4);
+  .slice(0, 3);
+
+const projects = (await getCollection('projects'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 2);
 
 const formatDate = (d: Date) =>
   d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
@@ -47,35 +51,28 @@ const formatDate = (d: Date) =>
             <a class="home-section-more" href="/projects">All work <span>›</span></a>
           </div>
           <div class="home-featured-grid">
-
-            <a class="home-feature-card" href="/projects/ai-blog-generator">
-              <div class="home-feature-thumb tinted">
-                <span class="thumb-mark">Project · 2025</span>
-                <span class="thumb-glyph">AI</span>
-              </div>
-              <h3>AI Blog Generator</h3>
-              <p>A simplified AI-powered content generator built with Flask and OpenAI.</p>
-              <div class="home-feature-meta">
-                <span class="chip accent">Python</span>
-                <span class="chip">Flask</span>
-                <span class="chip">OpenAI</span>
-              </div>
-            </a>
-
-            <a class="home-feature-card" href="/projects/fyyur">
-              <div class="home-feature-thumb">
-                <span class="thumb-mark">Project · 2026</span>
-                <span class="thumb-glyph">Fy</span>
-              </div>
-              <h3>Fyyur</h3>
-              <p>A musical venue & artist booking platform that connects local performing artists with venues.</p>
-              <div class="home-feature-meta">
-                <span class="chip accent">Python</span>
-                <span class="chip">PostgreSQL</span>
-                <span class="chip">Flask</span>
-              </div>
-            </a>
-
+            {projects.map((project, i) => {
+              const glyph = project.data.glyph ?? project.data.title.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase();
+              const year = project.data.pubDate.getFullYear();
+              const langs = project.data.languages ?? [];
+              const stack = project.data.stack ?? [];
+              const chips = [...langs, ...stack].slice(0, 3);
+              return (
+                <a class="home-feature-card" href={`/projects/${project.id}/`}>
+                  <div class={`home-feature-thumb${i === 0 ? ' tinted' : ''}`}>
+                    <span class="thumb-mark">Project · {year}</span>
+                    <span class="thumb-glyph">{glyph}</span>
+                  </div>
+                  <h3>{project.data.title}</h3>
+                  <p>{project.data.description}</p>
+                  <div class="home-feature-meta">
+                    {chips.map((chip: string, j: number) => (
+                      <span class={`chip${j === 0 ? ' accent' : ''}`}>{chip}</span>
+                    ))}
+                  </div>
+                </a>
+              );
+            })}
           </div>
         </div>
       </div>
