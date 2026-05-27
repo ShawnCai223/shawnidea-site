@@ -15,11 +15,9 @@ import Footer from '../components/Footer.astro';
       <div class="container">
         <div class="page-hero">
           <span class="eyebrow accent">About · the short version</span>
-          <h1>Shawn Cai.</h1>
+          <h1>Jianxiao (Shawn) Cai</h1>
           <p class="lead">
             Engineer & maker based in San Diego. The short version below.
-            <a href="/contact" style="color: var(--accent); text-decoration: underline; text-underline-offset: 3px;">Reach out</a>
-            for the long one.
           </p>
         </div>
 
@@ -28,42 +26,53 @@ import Footer from '../components/Footer.astro';
           <!-- Sticky rail -->
           <aside class="cv-rail">
             <div class="cv-rail-photo">
-              <span class="photo-mark">SC</span>
-            </div>
+          <img
+    src="https://shawnidea-516905425286-us-west-1-an.s3.us-west-1.amazonaws.com/about/IMG_2750.jpeg"
+    alt="Shawn Cai"
+    style="width:100%; height:100%; object-fit:cover; border-radius:inherit;"
+        />
+</div>
             <div>
-              <div class="cv-rail-name">Shawn Cai</div>
+              <div class="cv-rail-name">Jianxiao (Shawn) Cai</div>
               <div class="cv-rail-loc">San Diego, CA</div>
             </div>
 
             <div class="cv-rail-group">
               <span class="eyebrow">Contact</span>
               <div class="cv-rail-links">
-                <a href="/contact">Email <span class="arr">›</span></a>
-                <a href="https://github.com/ShawnCai223" target="_blank" rel="noopener">GitHub <span class="arr">↗</span></a>
-                <a href="https://linkedin.com/in/shawncai" target="_blank" rel="noopener">LinkedIn <span class="arr">↗</span></a>
+                <a href="mailto:hi@shawnidea.com">Email <span class="arr">↗</span></a>
+                <a href="https://www.github.com/ShawnCai223" target="_blank" rel="noopener noreferrer">GitHub <span class="arr">↗</span></a>
+                <a href="https://www.linkedin.com/in/jianxiao-shawn-cai" target="_blank" rel="noopener noreferrer">LinkedIn <span class="arr">↗</span></a>
               </div>
             </div>
 
             <div class="cv-rail-group">
               <span class="eyebrow">Languages</span>
               <div class="chips">
+                <span class="chip">Java</span>
                 <span class="chip">Python</span>
                 <span class="chip">TypeScript</span>
+                <span class="chip">Swift</span>
                 <span class="chip">JavaScript</span>
+                <span class="chip">C/C++</span>
+                <span class="chip">Go</span>
                 <span class="chip">SQL</span>
-                <span class="chip">Shell</span>
               </div>
             </div>
 
             <div class="cv-rail-group">
               <span class="eyebrow">Stack</span>
               <div class="chips">
-                <span class="chip">Flask</span>
-                <span class="chip">Astro</span>
+                <span class="chip">Spring Boot</span>
+                <span class="chip">SwiftUI</span>
+                <span class="chip">Redis</span>
+                <span class="chip">Elasticsearch</span>
                 <span class="chip">PostgreSQL</span>
                 <span class="chip">AWS</span>
+                <span class="chip">Docker</span>
+                <span class="chip">GitHub Actions</span>
                 <span class="chip">Cloudflare</span>
-                <span class="chip">OpenAI API</span>
+                <span class="chip">Figma</span>
               </div>
             </div>
 
@@ -78,35 +87,54 @@ import Footer from '../components/Footer.astro';
                 <h2>Experience</h2>
               </div>
               <div class="cv-cards-stack">
+
                 <div class="cv-card">
                   <div class="cv-card-row">
-                    <span class="cv-card-title">[Company]</span>
+                    <span class="cv-card-title">Pixel Blue LLC</span>
                     <span class="cv-card-loc">San Diego, CA</span>
                   </div>
                   <div class="cv-card-row">
-                    <span class="cv-card-role">[Your role here]</span>
-                    <span class="cv-card-meta">2024 — Present</span>
+                    <span class="cv-card-role">Founder & Software Engineer</span>
+                    <span class="cv-card-meta">April 2026 — Present</span>
                   </div>
                   <ul class="cv-card-points">
-                    <li>Replace this with one bullet describing what you owned.</li>
-                    <li>Replace this with one bullet describing impact (numbers help).</li>
-                    <li>Replace this with one bullet about a system or product you shipped.</li>
+                    <li>Launched Prec, an iOS recurring-checklist app (SwiftUI + SwiftData), from concept to App Store submission, owning full product lifecycle: market research, PRD, UX design, Swift implementation, and release pipeline.</li>
+                    <li>Conducted competitive analysis across 5+ apps (PackPoint, Packr, TripList) to identify an underserved daily-reset use case; defined a 3-tier pricing model (Free / $2.99/mo / $6.99/mo) and brand positioning from scratch.</li>
+                    <li>Leading product discovery for a Family Care coordination app targeting 63M US caregivers, conducting community observation, and competitive benchmarking of existing tools to define MVP scope and distribution strategy.</li>
                   </ul>
                 </div>
+
                 <div class="cv-card">
                   <div class="cv-card-row">
-                    <span class="cv-card-title">[Company]</span>
-                    <span class="cv-card-loc">Remote</span>
+                    <span class="cv-card-title">ivector</span>
+                    <span class="cv-card-loc">Sacramento, CA</span>
                   </div>
                   <div class="cv-card-row">
-                    <span class="cv-card-role">[Previous role]</span>
-                    <span class="cv-card-meta">2023 — 2024</span>
+                    <span class="cv-card-role">Software Engineering Intern</span>
+                    <span class="cv-card-meta">Jul 2025 — Sep 2025</span>
                   </div>
                   <ul class="cv-card-points">
-                    <li>Short summary of responsibilities and outcomes.</li>
-                    <li>Tools used, scale of system, what changed because of you.</li>
+                    <li>Designed 15+ UI screens in Figma and translated product requirements into user flows and interface prototypes.</li>
+                    <li>Implemented 3 core application pages (home, login, registration) in Unity using C#, building navigation logic and interactive UI components.</li>
+                    <li>Integrated Firebase Authentication supporting 4 flows (login, registration, password reset, email verification), establishing secure user account management within the app.</li>
                   </ul>
                 </div>
+
+                <div class="cv-card">
+                  <div class="cv-card-row">
+                    <span class="cv-card-title">FORVIA HELLA</span>
+                    <span class="cv-card-loc">Shanghai, China</span>
+                  </div>
+                  <div class="cv-card-row">
+                    <span class="cv-card-role">Advanced Engineering Intern</span>
+                    <span class="cv-card-meta">Jan 2024 — May 2024</span>
+                  </div>
+                  <ul class="cv-card-points">
+                    <li>Developed BLDC motor control logic in Simulink with auto-generated code, reducing manual embedded coding by 40%.</li>
+                    <li>Established a reusable Model-Based Design workflow adopted across engineering projects, improving development consistency and iteration speed.</li>
+                  </ul>
+                </div>
+
               </div>
             </div>
 
@@ -121,18 +149,18 @@ import Footer from '../components/Footer.astro';
                     <span class="cv-card-loc">La Jolla, CA</span>
                   </div>
                   <div class="cv-card-row">
-                    <span class="cv-card-role">MS, Computer Science</span>
+                    <span class="cv-card-role">M.S., Computer Engineering</span>
                     <span class="cv-card-meta">2024 — 2026</span>
                   </div>
                 </div>
                 <div class="cv-card">
                   <div class="cv-card-row">
-                    <span class="cv-card-title">Tongji University</span>
+                    <span class="cv-card-title">Shanghai Normal University</span>
                     <span class="cv-card-loc">Shanghai, China</span>
                   </div>
                   <div class="cv-card-row">
-                    <span class="cv-card-role">BS, Software Engineering</span>
-                    <span class="cv-card-meta">2019 — 2023</span>
+                    <span class="cv-card-role">B.Eng., Electronic Information Engineering</span>
+                    <span class="cv-card-meta">2020 — 2024</span>
                   </div>
                 </div>
               </div>
